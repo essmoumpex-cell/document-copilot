@@ -1,1 +1,1136 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document Copilot — Morocco</title>
 
+<style>
+:root{
+  --bg:#07080d;
+  --panel:#10121b;
+  --panel2:#151827;
+  --line:#252a3d;
+  --text:#f5f7ff;
+  --muted:#9ba3ba;
+  --blue:#6c7cff;
+  --purple:#9b6cff;
+  --green:#31d69a;
+  --yellow:#ffc857;
+  --red:#ff5d73;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 80% 0%,rgba(108,124,255,.14),transparent 30%),
+    radial-gradient(circle at 10% 20%,rgba(155,108,255,.10),transparent 28%),
+    var(--bg);
+  color:var(--text);
+  font-family:Arial,"Segoe UI",sans-serif;
+}
+
+button,input,select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.app{
+  width:min(1180px,94%);
+  margin:auto;
+  padding:28px 0 70px;
+}
+
+/* HEADER */
+
+header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  margin-bottom:55px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.logo{
+  width:45px;
+  height:45px;
+  border-radius:14px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,var(--blue),var(--purple));
+  font-size:22px;
+  box-shadow:0 0 30px rgba(108,124,255,.25);
+}
+
+.brand-text strong{
+  display:block;
+  font-size:17px;
+  letter-spacing:.4px;
+}
+
+.brand-text span{
+  color:var(--muted);
+  font-size:11px;
+}
+
+.lang{
+  display:flex;
+  gap:5px;
+  background:var(--panel);
+  border:1px solid var(--line);
+  padding:5px;
+  border-radius:12px;
+}
+
+.lang button{
+  border:0;
+  background:transparent;
+  color:var(--muted);
+  padding:7px 10px;
+  border-radius:8px;
+}
+
+.lang button.active{
+  background:var(--panel2);
+  color:#fff;
+}
+
+/* HERO */
+
+.hero{
+  text-align:center;
+  max-width:850px;
+  margin:0 auto 42px;
+}
+
+.badge{
+  display:inline-flex;
+  padding:7px 13px;
+  border-radius:999px;
+  background:rgba(108,124,255,.10);
+  border:1px solid rgba(108,124,255,.25);
+  color:#aeb7ff;
+  font-size:12px;
+  margin-bottom:18px;
+}
+
+.hero h1{
+  font-size:clamp(34px,6vw,64px);
+  line-height:1;
+  margin:0 0 20px;
+  letter-spacing:-2px;
+}
+
+.gradient{
+  background:linear-gradient(90deg,#fff,var(--blue),#b78cff);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+
+.hero p{
+  color:var(--muted);
+  font-size:17px;
+  line-height:1.8;
+  margin:0 auto;
+  max-width:680px;
+}
+
+/* MAIN */
+
+.workspace{
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:20px;
+}
+
+.card{
+  background:rgba(16,18,27,.88);
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:24px;
+  box-shadow:0 20px 60px rgba(0,0,0,.18);
+}
+
+.card-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:18px;
+}
+
+.card-title h2{
+  margin:0;
+  font-size:17px;
+}
+
+.card-title span{
+  color:var(--muted);
+  font-size:12px;
+}
+
+/* UPLOAD */
+
+.dropzone{
+  min-height:285px;
+  border:1.5px dashed #3b4260;
+  border-radius:18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:30px;
+  transition:.2s;
+  background:rgba(255,255,255,.015);
+}
+
+.dropzone.dragover{
+  border-color:var(--blue);
+  background:rgba(108,124,255,.07);
+}
+
+.upload-icon{
+  width:64px;
+  height:64px;
+  border-radius:18px;
+  background:rgba(108,124,255,.10);
+  display:grid;
+  place-items:center;
+  margin:0 auto 18px;
+  font-size:28px;
+}
+
+.dropzone h3{
+  margin:0 0 8px;
+  font-size:18px;
+}
+
+.dropzone p{
+  margin:0 0 18px;
+  color:var(--muted);
+  font-size:13px;
+}
+
+.primary{
+  border:0;
+  border-radius:12px;
+  padding:12px 20px;
+  color:#fff;
+  background:linear-gradient(135deg,var(--blue),var(--purple));
+  box-shadow:0 8px 25px rgba(108,124,255,.22);
+}
+
+.primary:hover{
+  transform:translateY(-1px);
+}
+
+.file-info{
+  display:none;
+  margin-top:15px;
+  background:var(--panel2);
+  border:1px solid var(--line);
+  border-radius:13px;
+  padding:12px;
+}
+
+.file-row{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.file-icon{
+  width:38px;
+  height:38px;
+  border-radius:10px;
+  display:grid;
+  place-items:center;
+  background:rgba(49,214,154,.10);
+}
+
+.file-name{
+  flex:1;
+  min-width:0;
+}
+
+.file-name strong{
+  display:block;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.file-name span{
+  color:var(--muted);
+  font-size:11px;
+}
+
+/* ACTIONS */
+
+.actions{
+  margin-top:20px;
+}
+
+.actions h3{
+  margin:0 0 12px;
+  font-size:14px;
+}
+
+.action-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.action{
+  border:1px solid var(--line);
+  background:#0d0f17;
+  color:#fff;
+  border-radius:14px;
+  padding:15px;
+  text-align:right;
+  transition:.2s;
+}
+
+.action:hover{
+  border-color:#4c5682;
+  background:#131624;
+}
+
+.action.selected{
+  border-color:var(--blue);
+  background:rgba(108,124,255,.08);
+}
+
+.action-icon{
+  font-size:20px;
+  margin-bottom:8px;
+}
+
+.action strong{
+  display:block;
+  font-size:13px;
+  margin-bottom:4px;
+}
+
+.action span{
+  color:var(--muted);
+  font-size:11px;
+}
+
+/* RESULT */
+
+.result-card{
+  min-height:100%;
+}
+
+.empty-state{
+  min-height:460px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  color:var(--muted);
+}
+
+.empty-icon{
+  font-size:45px;
+  margin-bottom:15px;
+  opacity:.6;
+}
+
+.empty-state h3{
+  color:#fff;
+  margin:0 0 8px;
+}
+
+.empty-state p{
+  max-width:350px;
+  line-height:1.7;
+  margin:auto;
+  font-size:13px;
+}
+
+/* RESULT CONTENT */
+
+.result-content{
+  display:none;
+}
+
+.status{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:15px;
+  border-radius:14px;
+  margin-bottom:15px;
+}
+
+.status.waiting{
+  background:rgba(255,200,87,.08);
+  border:1px solid rgba(255,200,87,.2);
+}
+
+.status.success{
+  background:rgba(49,214,154,.08);
+  border:1px solid rgba(49,214,154,.2);
+}
+
+.status-title{
+  font-weight:bold;
+}
+
+.status-sub{
+  color:var(--muted);
+  font-size:11px;
+  margin-top:4px;
+}
+
+.pill{
+  padding:6px 9px;
+  border-radius:999px;
+  font-size:10px;
+  background:rgba(255,200,87,.12);
+  color:var(--yellow);
+}
+
+.result-section{
+  border:1px solid var(--line);
+  background:#0d0f17;
+  border-radius:14px;
+  padding:15px;
+  margin-bottom:12px;
+}
+
+.result-section h3{
+  margin:0 0 12px;
+  font-size:13px;
+}
+
+.check-list{
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+}
+
+.check{
+  display:flex;
+  align-items:flex-start;
+  gap:9px;
+  font-size:12px;
+  line-height:1.5;
+}
+
+.check.ok .mark{
+  color:var(--green);
+}
+
+.check.bad .mark{
+  color:var(--red);
+}
+
+.check.warn .mark{
+  color:var(--yellow);
+}
+
+.mark{
+  font-weight:bold;
+}
+
+.next-action{
+  background:linear-gradient(135deg,rgba(108,124,255,.10),rgba(155,108,255,.08));
+  border:1px solid rgba(108,124,255,.22);
+}
+
+.next-action strong{
+  display:block;
+  margin-bottom:6px;
+  font-size:13px;
+}
+
+.next-action p{
+  color:#c6cbe0;
+  font-size:12px;
+  line-height:1.6;
+  margin:0;
+}
+
+/* FOOTER */
+
+footer{
+  text-align:center;
+  color:#69718b;
+  font-size:11px;
+  margin-top:45px;
+}
+
+.security{
+  display:flex;
+  justify-content:center;
+  gap:15px;
+  flex-wrap:wrap;
+  margin-top:10px;
+}
+
+.security span{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:850px){
+  .workspace{
+    grid-template-columns:1fr;
+  }
+
+  header{
+    margin-bottom:35px;
+  }
+
+  .hero{
+    margin-bottom:30px;
+  }
+}
+
+@media(max-width:520px){
+  .app{
+    width:92%;
+    padding-top:18px;
+  }
+
+  header{
+    align-items:flex-start;
+  }
+
+  .brand-text span{
+    display:none;
+  }
+
+  .hero h1{
+    font-size:40px;
+  }
+
+  .hero p{
+    font-size:14px;
+  }
+
+  .card{
+    padding:17px;
+    border-radius:18px;
+  }
+
+  .action-grid{
+    grid-template-columns:1fr;
+  }
+
+  .dropzone{
+    min-height:250px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header>
+
+  <div class="brand">
+    <div class="logo">◫</div>
+    <div class="brand-text">
+      <strong>DOCUMENT COPILOT</strong>
+      <span>MOROCCO FIRST · v0.1</span>
+    </div>
+  </div>
+
+  <div class="lang">
+    <button class="active" data-lang="ar">العربية</button>
+    <button data-lang="fr">FR</button>
+    <button data-lang="en">EN</button>
+  </div>
+
+</header>
+
+<section class="hero">
+
+  <div class="badge">🇲🇦 Morocco First · العربية · Français · English</div>
+
+  <h1>
+    <span class="gradient">شنو ناقصك؟</span>
+  </h1>
+
+  <p id="heroText">
+    رفع الوثائق ديالك، وحنا نساعدوك تفهمها،
+    نكتاشفو شنو ناقص، ونوريك شنو خاصك تدير من بعد.
+  </p>
+
+</section>
+
+<main class="workspace">
+
+  <!-- LEFT -->
+
+  <section class="card">
+
+    <div class="card-title">
+      <h2 id="uploadTitle">📄 وثيقتك</h2>
+      <span>PDF · JPG · PNG · DOCX</span>
+    </div>
+
+    <div
+      class="dropzone"
+      id="dropzone"
+    >
+
+      <div>
+
+        <div class="upload-icon">↑</div>
+
+        <h3 id="dropTitle">رفع الوثيقة هنا</h3>
+
+        <p id="dropText">
+          جرّ الملف هنا أو اختار ملف من جهازك
+        </p>
+
+        <button
+          class="primary"
+          id="uploadBtn"
+        >
+          اختيار وثيقة
+        </button>
+
+        <input
+          type="file"
+          id="fileInput"
+          hidden
+          accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
+        >
+
+      </div>
+
+    </div>
+
+    <div class="file-info" id="fileInfo">
+
+      <div class="file-row">
+
+        <div class="file-icon">📄</div>
+
+        <div class="file-name">
+          <strong id="fileName">document.pdf</strong>
+          <span id="fileSize">0 KB</span>
+        </div>
+
+        <button
+          id="removeFile"
+          style="
+            border:0;
+            background:transparent;
+            color:#9ba3ba;
+            font-size:18px;
+          "
+        >
+          ×
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="actions">
+
+      <h3 id="actionTitle">شنو بغيتي ندير بهاد الوثيقة؟</h3>
+
+      <div class="action-grid">
+
+        <button class="action selected" data-action="explain">
+
+          <div class="action-icon">🔍</div>
+
+          <strong>فهم الوثيقة</strong>
+
+          <span>شرح بسيط وواضح</span>
+
+        </button>
+
+        <button class="action" data-action="missing">
+
+          <div class="action-icon">📋</div>
+
+          <strong>شنو ناقصني؟</strong>
+
+          <span>كشف الوثائق والمعلومات الناقصة</span>
+
+        </button>
+
+        <button class="action" data-action="fill">
+
+          <div class="action-icon">✍️</div>
+
+          <strong>تعمير الوثيقة</strong>
+
+          <span>مساعدة في الخانات المطلوبة</span>
+
+        </button>
+
+        <button class="action" data-action="compare">
+
+          <div class="action-icon">🔄</div>
+
+          <strong>مقارنة وثيقتين</strong>
+
+          <span>كشف الاختلافات والنواقص</span>
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- RIGHT -->
+
+  <section class="card result-card">
+
+    <div class="card-title">
+
+      <h2 id="resultTitle">🧠 Document Check</h2>
+
+      <span>AI READY</span>
+
+    </div>
+
+    <div class="empty-state" id="emptyState">
+
+      <div>
+
+        <div class="empty-icon">◫</div>
+
+        <h3 id="emptyTitle">
+          النتيجة غادي تبان هنا
+        </h3>
+
+        <p id="emptyText">
+          رفع وثيقة واختار شنو بغيتي تعرف عليها.
+          التحليل الحقيقي غادي نربطوه بالـAPI في المرحلة القادمة.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="result-content" id="resultContent">
+
+      <div class="status waiting">
+
+        <div>
+          <div class="status-title">
+            Document received
+          </div>
+
+          <div class="status-sub">
+            الوثيقة جاهزة للتحليل
+          </div>
+        </div>
+
+        <div class="pill">
+          READY
+        </div>
+
+      </div>
+
+
+      <div class="result-section">
+
+        <h3>📄 نوع الوثيقة</h3>
+
+        <div class="check-list">
+
+          <div class="check warn">
+            <span class="mark">●</span>
+            <span id="docType">
+              سيتم تحديد نوع الوثيقة بواسطة الـAPI.
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="result-section">
+
+        <h3>✅ معلومات موجودة</h3>
+
+        <div class="check-list">
+
+          <div class="check ok">
+            <span class="mark">✓</span>
+            <span>سيتم استخراج المعلومات الموجودة.</span>
+          </div>
+
+          <div class="check ok">
+            <span class="mark">✓</span>
+            <span>سيتم تحديد الحقول القابلة للتعبئة.</span>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="result-section">
+
+        <h3>⚠️ معلومات / وثائق ناقصة</h3>
+
+        <div class="check-list">
+
+          <div class="check bad">
+            <span class="mark">!</span>
+            <span>
+              لا توجد نتيجة حقيقية قبل ربط الـAPI.
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="result-section next-action">
+
+        <strong>👉 الخطوة التالية</strong>
+
+        <p>
+          المرحلة القادمة هي ربط الوثيقة بمحرك التحليل الحقيقي،
+          باش النظام يقرأ المحتوى ويحدد النواقص والخانات
+          اللي يمكن تعميرها.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<footer>
+
+  <div>
+    DOCUMENT COPILOT · Built for Morocco
+  </div>
+
+  <div class="security">
+
+    <span>🔒 Your documents stay private</span>
+    <span>🇲🇦 Morocco First</span>
+    <span>🌍 Multilingual</span>
+
+  </div>
+
+</footer>
+
+</div>
+
+
+<script>
+
+const dropzone = document.getElementById("dropzone");
+const fileInput = document.getElementById("fileInput");
+const uploadBtn = document.getElementById("uploadBtn");
+const fileInfo = document.getElementById("fileInfo");
+const fileName = document.getElementById("fileName");
+const fileSize = document.getElementById("fileSize");
+const removeFile = document.getElementById("removeFile");
+
+const emptyState = document.getElementById("emptyState");
+const resultContent = document.getElementById("resultContent");
+
+let selectedFile = null;
+let selectedAction = "explain";
+
+
+/* FILE UPLOAD */
+
+uploadBtn.addEventListener("click", () => {
+  fileInput.click();
+});
+
+fileInput.addEventListener("change", () => {
+
+  if(fileInput.files.length){
+    handleFile(fileInput.files[0]);
+  }
+
+});
+
+
+dropzone.addEventListener("dragover", (e) => {
+
+  e.preventDefault();
+
+  dropzone.classList.add("dragover");
+
+});
+
+
+dropzone.addEventListener("dragleave", () => {
+
+  dropzone.classList.remove("dragover");
+
+});
+
+
+dropzone.addEventListener("drop", (e) => {
+
+  e.preventDefault();
+
+  dropzone.classList.remove("dragover");
+
+  if(e.dataTransfer.files.length){
+    handleFile(e.dataTransfer.files[0]);
+  }
+
+});
+
+
+function handleFile(file){
+
+  const allowed = [
+    "application/pdf",
+    "image/jpeg",
+    "image/png",
+    "application/msword",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  ];
+
+  const extension = file.name.split(".").pop().toLowerCase();
+
+  const validExtensions = [
+    "pdf",
+    "jpg",
+    "jpeg",
+    "png",
+    "doc",
+    "docx"
+  ];
+
+  if(!validExtensions.includes(extension)){
+
+    alert("الملف غير مدعوم. استعمل PDF, JPG, PNG أو DOCX.");
+
+    return;
+
+  }
+
+  selectedFile = file;
+
+  fileName.textContent = file.name;
+
+  fileSize.textContent = formatSize(file.size);
+
+  fileInfo.style.display = "block";
+
+  emptyState.style.display = "none";
+
+  resultContent.style.display = "block";
+
+  document.getElementById("docType").textContent =
+    "سيتم تحديد نوع الوثيقة بعد ربط محرك التحليل.";
+
+}
+
+
+function formatSize(bytes){
+
+  if(bytes < 1024){
+    return bytes + " B";
+  }
+
+  if(bytes < 1024 * 1024){
+    return (bytes / 1024).toFixed(1) + " KB";
+  }
+
+  return (bytes / (1024 * 1024)).toFixed(1) + " MB";
+
+}
+
+
+removeFile.addEventListener("click", () => {
+
+  selectedFile = null;
+
+  fileInput.value = "";
+
+  fileInfo.style.display = "none";
+
+  resultContent.style.display = "none";
+
+  emptyState.style.display = "flex";
+
+});
+
+
+/* ACTIONS */
+
+document.querySelectorAll(".action").forEach(button => {
+
+  button.addEventListener("click", () => {
+
+    document.querySelectorAll(".action").forEach(b => {
+      b.classList.remove("selected");
+    });
+
+    button.classList.add("selected");
+
+    selectedAction = button.dataset.action;
+
+    updateActionPreview();
+
+  });
+
+});
+
+
+function updateActionPreview(){
+
+  const descriptions = {
+
+    explain:
+      "غادي نشرحو ليك الوثيقة بلغة بسيطة.",
+
+    missing:
+      "غادي نقلبو على الوثائق والمعلومات اللي ناقصة.",
+
+    fill:
+      "غادي نحددو الخانات اللي يمكن تعميرها.",
+
+    compare:
+      "غادي نقارنو بين الوثائق ونخرجو الاختلافات."
+
+  };
+
+  const next = document.querySelector(".next-action p");
+
+  next.textContent =
+    descriptions[selectedAction] +
+    " التحليل الحقيقي غادي يتفعل مع الـAPI.";
+
+}
+
+
+/* LANGUAGE */
+
+const translations = {
+
+  ar: {
+
+    hero:
+      "رفع الوثائق ديالك، وحنا نساعدوك تفهمها، نكتاشفو شنو ناقص، ونوريك شنو خاصك تدير من بعد.",
+
+    upload:
+      "رفع الوثيقة هنا",
+
+    uploadText:
+      "جرّ الملف هنا أو اختار ملف من جهازك",
+
+    choose:
+      "اختيار وثيقة"
+
+  },
+
+  fr: {
+
+    hero:
+      "Téléchargez vos documents. Nous vous aidons à les comprendre, détecter ce qui manque et savoir quoi faire ensuite.",
+
+    upload:
+      "Déposez votre document ici",
+
+    uploadText:
+      "Glissez le fichier ici ou choisissez un fichier",
+
+    choose:
+      "Choisir un document"
+
+  },
+
+  en: {
+
+    hero:
+      "Upload your documents. We'll help you understand them, detect what's missing and show you what to do next.",
+
+    upload:
+      "Upload your document",
+
+    uploadText:
+      "Drag your file here or choose a file",
+
+    choose:
+      "Choose document"
+
+  }
+
+};
+
+
+document.querySelectorAll(".lang button").forEach(button => {
+
+  button.addEventListener("click", () => {
+
+    document.querySelectorAll(".lang button").forEach(b => {
+      b.classList.remove("active");
+    });
+
+    button.classList.add("active");
+
+    const lang = button.dataset.lang;
+
+    document.documentElement.lang = lang;
+
+    document.documentElement.dir =
+      lang === "ar" ? "rtl" : "ltr";
+
+    document.getElementById("heroText").textContent =
+      translations[lang].hero;
+
+    document.getElementById("dropTitle").textContent =
+      translations[lang].upload;
+
+    document.getElementById("dropText").textContent =
+      translations[lang].uploadText;
+
+    document.getElementById("uploadBtn").textContent =
+      translations[lang].choose;
+
+  });
+
+});
+
+</script>
+
+</body>
+</html>
