@@ -1,9 +1,21 @@
+```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Document Copilot — Morocco</title>
+
+<!-- PDF.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs"
+        type="module"></script>
+
+<!-- Mammoth DOCX -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script>
+
+<!-- Tesseract OCR -->
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 
 <style>
 :root{
@@ -20,9 +32,7 @@
   --red:#ff5d73;
 }
 
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
   margin:0;
@@ -35,21 +45,14 @@ body{
   font-family:Arial,"Segoe UI",sans-serif;
 }
 
-button,input,select{
-  font:inherit;
-}
-
-button{
-  cursor:pointer;
-}
+button,input,select{font:inherit}
+button{cursor:pointer}
 
 .app{
   width:min(1180px,94%);
   margin:auto;
   padding:28px 0 70px;
 }
-
-/* HEADER */
 
 header{
   display:flex;
@@ -109,8 +112,6 @@ header{
   color:#fff;
 }
 
-/* HERO */
-
 .hero{
   text-align:center;
   max-width:850px;
@@ -150,8 +151,6 @@ header{
   max-width:680px;
 }
 
-/* MAIN */
-
 .workspace{
   display:grid;
   grid-template-columns:1.1fr .9fr;
@@ -182,8 +181,6 @@ header{
   color:var(--muted);
   font-size:12px;
 }
-
-/* UPLOAD */
 
 .dropzone{
   min-height:285px;
@@ -234,8 +231,9 @@ header{
   box-shadow:0 8px 25px rgba(108,124,255,.22);
 }
 
-.primary:hover{
-  transform:translateY(-1px);
+.primary:disabled{
+  opacity:.55;
+  cursor:not-allowed;
 }
 
 .file-info{
@@ -278,8 +276,6 @@ header{
   color:var(--muted);
   font-size:11px;
 }
-
-/* ACTIONS */
 
 .actions{
   margin-top:20px;
@@ -332,7 +328,12 @@ header{
   font-size:11px;
 }
 
-/* RESULT */
+.analyze-btn{
+  width:100%;
+  margin-top:15px;
+  font-size:14px;
+  font-weight:bold;
+}
 
 .result-card{
   min-height:100%;
@@ -365,8 +366,6 @@ header{
   font-size:13px;
 }
 
-/* RESULT CONTENT */
-
 .result-content{
   display:none;
 }
@@ -389,6 +388,11 @@ header{
 .status.success{
   background:rgba(49,214,154,.08);
   border:1px solid rgba(49,214,154,.2);
+}
+
+.status.error{
+  background:rgba(255,93,115,.08);
+  border:1px solid rgba(255,93,115,.2);
 }
 
 .status-title{
@@ -422,55 +426,27 @@ header{
   font-size:13px;
 }
 
-.check-list{
-  display:flex;
-  flex-direction:column;
-  gap:9px;
-}
-
-.check{
-  display:flex;
-  align-items:flex-start;
-  gap:9px;
-  font-size:12px;
-  line-height:1.5;
-}
-
-.check.ok .mark{
-  color:var(--green);
-}
-
-.check.bad .mark{
-  color:var(--red);
-}
-
-.check.warn .mark{
-  color:var(--yellow);
-}
-
-.mark{
-  font-weight:bold;
-}
-
-.next-action{
-  background:linear-gradient(135deg,rgba(108,124,255,.10),rgba(155,108,255,.08));
-  border:1px solid rgba(108,124,255,.22);
-}
-
-.next-action strong{
-  display:block;
-  margin-bottom:6px;
+.ai-answer{
+  white-space:pre-wrap;
+  line-height:1.8;
+  color:#dfe3f2;
   font-size:13px;
 }
 
-.next-action p{
-  color:#c6cbe0;
-  font-size:12px;
-  line-height:1.6;
-  margin:0;
+.progress{
+  height:6px;
+  background:#202438;
+  border-radius:999px;
+  overflow:hidden;
+  margin-top:12px;
 }
 
-/* FOOTER */
+.progress-bar{
+  width:0%;
+  height:100%;
+  background:linear-gradient(90deg,var(--blue),var(--purple));
+  transition:.3s;
+}
 
 footer{
   text-align:center;
@@ -493,20 +469,10 @@ footer{
   gap:5px;
 }
 
-/* RESPONSIVE */
-
 @media(max-width:850px){
-  .workspace{
-    grid-template-columns:1fr;
-  }
-
-  header{
-    margin-bottom:35px;
-  }
-
-  .hero{
-    margin-bottom:30px;
-  }
+  .workspace{grid-template-columns:1fr}
+  header{margin-bottom:35px}
+  .hero{margin-bottom:30px}
 }
 
 @media(max-width:520px){
@@ -515,34 +481,22 @@ footer{
     padding-top:18px;
   }
 
-  header{
-    align-items:flex-start;
-  }
+  header{align-items:flex-start}
 
-  .brand-text span{
-    display:none;
-  }
+  .brand-text span{display:none}
 
-  .hero h1{
-    font-size:40px;
-  }
+  .hero h1{font-size:40px}
 
-  .hero p{
-    font-size:14px;
-  }
+  .hero p{font-size:14px}
 
   .card{
     padding:17px;
     border-radius:18px;
   }
 
-  .action-grid{
-    grid-template-columns:1fr;
-  }
+  .action-grid{grid-template-columns:1fr}
 
-  .dropzone{
-    min-height:250px;
-  }
+  .dropzone{min-height:250px}
 }
 </style>
 </head>
@@ -552,12 +506,11 @@ footer{
 <div class="app">
 
 <header>
-
   <div class="brand">
     <div class="logo">◫</div>
     <div class="brand-text">
       <strong>DOCUMENT COPILOT</strong>
-      <span>MOROCCO FIRST · v0.1</span>
+      <span>MOROCCO FIRST · GEMINI AI</span>
     </div>
   </div>
 
@@ -566,12 +519,13 @@ footer{
     <button data-lang="fr">FR</button>
     <button data-lang="en">EN</button>
   </div>
-
 </header>
 
 <section class="hero">
 
-  <div class="badge">🇲🇦 Morocco First · العربية · Français · English</div>
+  <div class="badge">
+    🇲🇦 Morocco First · العربية · Français · English
+  </div>
 
   <h1>
     <span class="gradient">شنو ناقصك؟</span>
@@ -586,256 +540,197 @@ footer{
 
 <main class="workspace">
 
-  <!-- LEFT -->
+<section class="card">
 
-  <section class="card">
+  <div class="card-title">
+    <h2 id="uploadTitle">📄 وثيقتك</h2>
+    <span>PDF · JPG · PNG · DOCX</span>
+  </div>
 
-    <div class="card-title">
-      <h2 id="uploadTitle">📄 وثيقتك</h2>
-      <span>PDF · JPG · PNG · DOCX</span>
+  <div class="dropzone" id="dropzone">
+
+    <div>
+
+      <div class="upload-icon">↑</div>
+
+      <h3 id="dropTitle">
+        رفع الوثيقة هنا
+      </h3>
+
+      <p id="dropText">
+        جرّ الملف هنا أو اختار ملف من جهازك
+      </p>
+
+      <button class="primary" id="uploadBtn">
+        اختيار وثيقة
+      </button>
+
+      <input
+        type="file"
+        id="fileInput"
+        hidden
+        accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.txt"
+      >
+
     </div>
 
-    <div
-      class="dropzone"
-      id="dropzone"
+  </div>
+
+  <div class="file-info" id="fileInfo">
+
+    <div class="file-row">
+
+      <div class="file-icon">📄</div>
+
+      <div class="file-name">
+        <strong id="fileName">document.pdf</strong>
+        <span id="fileSize">0 KB</span>
+      </div>
+
+      <button
+        id="removeFile"
+        style="
+          border:0;
+          background:transparent;
+          color:#9ba3ba;
+          font-size:18px;
+        "
+      >
+        ×
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="actions">
+
+    <h3 id="actionTitle">
+      شنو بغيتي ندير بهاد الوثيقة؟
+    </h3>
+
+    <div class="action-grid">
+
+      <button class="action selected" data-action="explain">
+        <div class="action-icon">🔍</div>
+        <strong>فهم الوثيقة</strong>
+        <span>شرح بسيط وواضح</span>
+      </button>
+
+      <button class="action" data-action="missing">
+        <div class="action-icon">📋</div>
+        <strong>شنو ناقصني؟</strong>
+        <span>كشف الوثائق والمعلومات الناقصة</span>
+      </button>
+
+      <button class="action" data-action="fill">
+        <div class="action-icon">✍️</div>
+        <strong>تعمير الوثيقة</strong>
+        <span>مساعدة في الخانات المطلوبة</span>
+      </button>
+
+      <button class="action" data-action="compare">
+        <div class="action-icon">🔄</div>
+        <strong>تحليل الوثيقة</strong>
+        <span>تحليل شامل للمحتوى</span>
+      </button>
+
+    </div>
+
+    <button
+      class="primary analyze-btn"
+      id="analyzeBtn"
+      disabled
     >
+      🤖 حلّل الوثيقة بـ Gemini
+    </button>
+
+  </div>
+
+</section>
+
+<section class="card result-card">
+
+  <div class="card-title">
+
+    <h2 id="resultTitle">
+      🧠 Document Check
+    </h2>
+
+    <span>GEMINI AI</span>
+
+  </div>
+
+  <div class="empty-state" id="emptyState">
+
+    <div>
+
+      <div class="empty-icon">◫</div>
+
+      <h3 id="emptyTitle">
+        النتيجة غادي تبان هنا
+      </h3>
+
+      <p id="emptyText">
+        رفع وثيقة واختار شنو بغيتي تعرف عليها.
+        Gemini غادي يحلل المحتوى ويعطيك النتيجة.
+      </p>
+
+    </div>
+
+  </div>
+
+  <div class="result-content" id="resultContent">
+
+    <div class="status waiting" id="statusBox">
 
       <div>
 
-        <div class="upload-icon">↑</div>
-
-        <h3 id="dropTitle">رفع الوثيقة هنا</h3>
-
-        <p id="dropText">
-          جرّ الملف هنا أو اختار ملف من جهازك
-        </p>
-
-        <button
-          class="primary"
-          id="uploadBtn"
-        >
-          اختيار وثيقة
-        </button>
-
-        <input
-          type="file"
-          id="fileInput"
-          hidden
-          accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
-        >
-
-      </div>
-
-    </div>
-
-    <div class="file-info" id="fileInfo">
-
-      <div class="file-row">
-
-        <div class="file-icon">📄</div>
-
-        <div class="file-name">
-          <strong id="fileName">document.pdf</strong>
-          <span id="fileSize">0 KB</span>
+        <div class="status-title" id="statusTitle">
+          جاري التحليل...
         </div>
 
-        <button
-          id="removeFile"
-          style="
-            border:0;
-            background:transparent;
-            color:#9ba3ba;
-            font-size:18px;
-          "
-        >
-          ×
-        </button>
-
-      </div>
-
-    </div>
-
-    <div class="actions">
-
-      <h3 id="actionTitle">شنو بغيتي ندير بهاد الوثيقة؟</h3>
-
-      <div class="action-grid">
-
-        <button class="action selected" data-action="explain">
-
-          <div class="action-icon">🔍</div>
-
-          <strong>فهم الوثيقة</strong>
-
-          <span>شرح بسيط وواضح</span>
-
-        </button>
-
-        <button class="action" data-action="missing">
-
-          <div class="action-icon">📋</div>
-
-          <strong>شنو ناقصني؟</strong>
-
-          <span>كشف الوثائق والمعلومات الناقصة</span>
-
-        </button>
-
-        <button class="action" data-action="fill">
-
-          <div class="action-icon">✍️</div>
-
-          <strong>تعمير الوثيقة</strong>
-
-          <span>مساعدة في الخانات المطلوبة</span>
-
-        </button>
-
-        <button class="action" data-action="compare">
-
-          <div class="action-icon">🔄</div>
-
-          <strong>مقارنة وثيقتين</strong>
-
-          <span>كشف الاختلافات والنواقص</span>
-
-        </button>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- RIGHT -->
-
-  <section class="card result-card">
-
-    <div class="card-title">
-
-      <h2 id="resultTitle">🧠 Document Check</h2>
-
-      <span>AI READY</span>
-
-    </div>
-
-    <div class="empty-state" id="emptyState">
-
-      <div>
-
-        <div class="empty-icon">◫</div>
-
-        <h3 id="emptyTitle">
-          النتيجة غادي تبان هنا
-        </h3>
-
-        <p id="emptyText">
-          رفع وثيقة واختار شنو بغيتي تعرف عليها.
-          التحليل الحقيقي غادي نربطوه بالـAPI في المرحلة القادمة.
-        </p>
-
-      </div>
-
-    </div>
-
-
-    <div class="result-content" id="resultContent">
-
-      <div class="status waiting">
-
-        <div>
-          <div class="status-title">
-            Document received
-          </div>
-
-          <div class="status-sub">
-            الوثيقة جاهزة للتحليل
-          </div>
-        </div>
-
-        <div class="pill">
-          READY
+        <div class="status-sub" id="statusSub">
+          Gemini كيقرا الوثيقة
         </div>
 
       </div>
 
-
-      <div class="result-section">
-
-        <h3>📄 نوع الوثيقة</h3>
-
-        <div class="check-list">
-
-          <div class="check warn">
-            <span class="mark">●</span>
-            <span id="docType">
-              سيتم تحديد نوع الوثيقة بواسطة الـAPI.
-            </span>
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div class="result-section">
-
-        <h3>✅ معلومات موجودة</h3>
-
-        <div class="check-list">
-
-          <div class="check ok">
-            <span class="mark">✓</span>
-            <span>سيتم استخراج المعلومات الموجودة.</span>
-          </div>
-
-          <div class="check ok">
-            <span class="mark">✓</span>
-            <span>سيتم تحديد الحقول القابلة للتعبئة.</span>
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div class="result-section">
-
-        <h3>⚠️ معلومات / وثائق ناقصة</h3>
-
-        <div class="check-list">
-
-          <div class="check bad">
-            <span class="mark">!</span>
-            <span>
-              لا توجد نتيجة حقيقية قبل ربط الـAPI.
-            </span>
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div class="result-section next-action">
-
-        <strong>👉 الخطوة التالية</strong>
-
-        <p>
-          المرحلة القادمة هي ربط الوثيقة بمحرك التحليل الحقيقي،
-          باش النظام يقرأ المحتوى ويحدد النواقص والخانات
-          اللي يمكن تعميرها.
-        </p>
-
+      <div class="pill" id="statusPill">
+        AI
       </div>
 
     </div>
 
-  </section>
+    <div class="progress">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div class="result-section">
+
+      <h3>🤖 تحليل Gemini</h3>
+
+      <div class="ai-answer" id="aiAnswer">
+        النتيجة غادي تظهر هنا...
+      </div>
+
+    </div>
+
+    <div class="result-section">
+
+      <h3>📄 الوثيقة</h3>
+
+      <div class="ai-answer" id="documentMeta">
+        -
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
 
 </main>
-
 
 <footer>
 
@@ -844,40 +739,84 @@ footer{
   </div>
 
   <div class="security">
-
-    <span>🔒 Your documents stay private</span>
+    <span>🔒 API key protected</span>
+    <span>🤖 Gemini AI</span>
     <span>🇲🇦 Morocco First</span>
-    <span>🌍 Multilingual</span>
-
   </div>
 
 </footer>
 
 </div>
 
-
 <script>
 
-const dropzone = document.getElementById("dropzone");
-const fileInput = document.getElementById("fileInput");
-const uploadBtn = document.getElementById("uploadBtn");
-const fileInfo = document.getElementById("fileInfo");
-const fileName = document.getElementById("fileName");
-const fileSize = document.getElementById("fileSize");
-const removeFile = document.getElementById("removeFile");
+const API_URL =
+  "https://document-copilot-api.essmoumpex.workers.dev";
 
-const emptyState = document.getElementById("emptyState");
-const resultContent = document.getElementById("resultContent");
+const dropzone =
+  document.getElementById("dropzone");
+
+const fileInput =
+  document.getElementById("fileInput");
+
+const uploadBtn =
+  document.getElementById("uploadBtn");
+
+const fileInfo =
+  document.getElementById("fileInfo");
+
+const fileName =
+  document.getElementById("fileName");
+
+const fileSize =
+  document.getElementById("fileSize");
+
+const removeFile =
+  document.getElementById("removeFile");
+
+const analyzeBtn =
+  document.getElementById("analyzeBtn");
+
+const emptyState =
+  document.getElementById("emptyState");
+
+const resultContent =
+  document.getElementById("resultContent");
+
+const aiAnswer =
+  document.getElementById("aiAnswer");
+
+const documentMeta =
+  document.getElementById("documentMeta");
+
+const statusBox =
+  document.getElementById("statusBox");
+
+const statusTitle =
+  document.getElementById("statusTitle");
+
+const statusSub =
+  document.getElementById("statusSub");
+
+const statusPill =
+  document.getElementById("statusPill");
+
+const progressBar =
+  document.getElementById("progressBar");
 
 let selectedFile = null;
 let selectedAction = "explain";
+let extractedText = "";
 
 
-/* FILE UPLOAD */
+/* =========================
+   FILE SELECTION
+========================= */
 
 uploadBtn.addEventListener("click", () => {
   fileInput.click();
 });
+
 
 fileInput.addEventListener("change", () => {
 
@@ -919,15 +858,8 @@ dropzone.addEventListener("drop", (e) => {
 
 function handleFile(file){
 
-  const allowed = [
-    "application/pdf",
-    "image/jpeg",
-    "image/png",
-    "application/msword",
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-  ];
-
-  const extension = file.name.split(".").pop().toLowerCase();
+  const extension =
+    file.name.split(".").pop().toLowerCase();
 
   const validExtensions = [
     "pdf",
@@ -935,32 +867,46 @@ function handleFile(file){
     "jpeg",
     "png",
     "doc",
-    "docx"
+    "docx",
+    "txt"
   ];
 
   if(!validExtensions.includes(extension)){
 
-    alert("الملف غير مدعوم. استعمل PDF, JPG, PNG أو DOCX.");
+    alert(
+      "الملف غير مدعوم. استعمل PDF, JPG, PNG, DOCX أو TXT."
+    );
 
     return;
-
   }
 
   selectedFile = file;
+  extractedText = "";
 
   fileName.textContent = file.name;
-
   fileSize.textContent = formatSize(file.size);
 
   fileInfo.style.display = "block";
 
   emptyState.style.display = "none";
-
   resultContent.style.display = "block";
 
-  document.getElementById("docType").textContent =
-    "سيتم تحديد نوع الوثيقة بعد ربط محرك التحليل.";
+  analyzeBtn.disabled = false;
 
+  aiAnswer.textContent =
+    "اضغط على «حلّل الوثيقة بـ Gemini» لبدء التحليل.";
+
+  documentMeta.textContent =
+    file.name + " · " + formatSize(file.size);
+
+  setStatus(
+    "waiting",
+    "الوثيقة جاهزة",
+    "اضغط على زر التحليل باش نبدأو.",
+    "READY"
+  );
+
+  progressBar.style.width = "0%";
 }
 
 
@@ -975,13 +921,13 @@ function formatSize(bytes){
   }
 
   return (bytes / (1024 * 1024)).toFixed(1) + " MB";
-
 }
 
 
 removeFile.addEventListener("click", () => {
 
   selectedFile = null;
+  extractedText = "";
 
   fileInput.value = "";
 
@@ -991,10 +937,13 @@ removeFile.addEventListener("click", () => {
 
   emptyState.style.display = "flex";
 
+  analyzeBtn.disabled = true;
 });
 
 
-/* ACTIONS */
+/* =========================
+   ACTIONS
+========================= */
 
 document.querySelectorAll(".action").forEach(button => {
 
@@ -1006,43 +955,419 @@ document.querySelectorAll(".action").forEach(button => {
 
     button.classList.add("selected");
 
-    selectedAction = button.dataset.action;
-
-    updateActionPreview();
+    selectedAction =
+      button.dataset.action;
 
   });
 
 });
 
 
-function updateActionPreview(){
+/* =========================
+   STATUS
+========================= */
 
-  const descriptions = {
+function setStatus(
+  type,
+  title,
+  sub,
+  pill
+){
+
+  statusBox.className =
+    "status " + type;
+
+  statusTitle.textContent =
+    title;
+
+  statusSub.textContent =
+    sub;
+
+  statusPill.textContent =
+    pill;
+}
+
+
+/* =========================
+   EXTRACT TEXT
+========================= */
+
+async function extractText(file){
+
+  const extension =
+    file.name.split(".").pop().toLowerCase();
+
+  if(extension === "txt"){
+
+    return await file.text();
+
+  }
+
+
+  if(extension === "docx"){
+
+    if(typeof mammoth === "undefined"){
+      throw new Error(
+        "DOCX engine is not loaded."
+      );
+    }
+
+    const arrayBuffer =
+      await file.arrayBuffer();
+
+    const result =
+      await mammoth.extractRawText({
+        arrayBuffer: arrayBuffer
+      });
+
+    return result.value;
+
+  }
+
+
+  if(extension === "pdf"){
+
+    return await extractPDF(file);
+
+  }
+
+
+  if(
+    extension === "jpg" ||
+    extension === "jpeg" ||
+    extension === "png"
+  ){
+
+    return await extractImageText(file);
+
+  }
+
+
+  throw new Error(
+    "Unsupported file type."
+  );
+}
+
+
+/* =========================
+   PDF
+========================= */
+
+async function extractPDF(file){
+
+  if(typeof pdfjsLib === "undefined"){
+
+    throw new Error(
+      "PDF engine is not loaded. Refresh the page and try again."
+    );
+  }
+
+  const arrayBuffer =
+    await file.arrayBuffer();
+
+  const pdf =
+    await pdfjsLib.getDocument({
+      data: arrayBuffer
+    }).promise;
+
+  let fullText = "";
+
+  for(let pageNumber = 1;
+      pageNumber <= pdf.numPages;
+      pageNumber++){
+
+    const page =
+      await pdf.getPage(pageNumber);
+
+    const content =
+      await page.getTextContent();
+
+    const pageText =
+      content.items
+        .map(item => item.str)
+        .join(" ");
+
+    fullText +=
+      "\n\n--- PAGE " +
+      pageNumber +
+      " ---\n\n" +
+      pageText;
+
+    const percent =
+      Math.round(
+        (pageNumber / pdf.numPages) * 45
+      );
+
+    progressBar.style.width =
+      percent + "%";
+  }
+
+  return fullText;
+}
+
+
+/* =========================
+   OCR IMAGE
+========================= */
+
+async function extractImageText(file){
+
+  if(typeof Tesseract === "undefined"){
+
+    throw new Error(
+      "OCR engine is not loaded. Refresh the page and try again."
+    );
+  }
+
+  setStatus(
+    "waiting",
+    "جاري قراءة الصورة",
+    "OCR كيقرا النص من الصورة...",
+    "OCR"
+  );
+
+  const result =
+    await Tesseract.recognize(
+      file,
+      "fra+eng+ara",
+      {
+        logger: message => {
+
+          if(
+            message.status === "recognizing text" &&
+            message.progress
+          ){
+
+            const percent =
+              Math.round(
+                message.progress * 45
+              );
+
+            progressBar.style.width =
+              percent + "%";
+          }
+
+        }
+      }
+    );
+
+  return result.data.text;
+}
+
+
+/* =========================
+   ACTION PROMPTS
+========================= */
+
+function getActionInstruction(){
+
+  const instructions = {
 
     explain:
-      "غادي نشرحو ليك الوثيقة بلغة بسيطة.",
+      `
+Explain this document in simple language.
+Tell the user what it is, what it means,
+and what the important parts are.
+`,
 
     missing:
-      "غادي نقلبو على الوثائق والمعلومات اللي ناقصة.",
+      `
+Focus especially on what is missing.
+Identify missing documents, information,
+signatures, dates, fields, requirements,
+or evidence that appears necessary.
+Do not invent requirements.
+`,
 
     fill:
-      "غادي نحددو الخانات اللي يمكن تعميرها.",
+      `
+Focus on helping the user understand
+which fields or sections need to be completed.
+Explain what information appears to belong
+in each important field.
+Do not invent personal information.
+`,
 
     compare:
-      "غادي نقارنو بين الوثائق ونخرجو الاختلافات."
-
+      `
+Perform a complete document analysis.
+Identify important information,
+possible contradictions, missing information,
+risks and recommended actions.
+`
   };
 
-  const next = document.querySelector(".next-action p");
+  return instructions[selectedAction] ||
+    instructions.explain;
+}
 
-  next.textContent =
-    descriptions[selectedAction] +
-    " التحليل الحقيقي غادي يتفعل مع الـAPI.";
+
+/* =========================
+   ANALYZE
+========================= */
+
+analyzeBtn.addEventListener(
+  "click",
+  analyzeDocument
+);
+
+
+async function analyzeDocument(){
+
+  if(!selectedFile){
+
+    alert("اختار وثيقة أولاً.");
+    return;
+  }
+
+  analyzeBtn.disabled = true;
+
+  resultContent.style.display = "block";
+  emptyState.style.display = "none";
+
+  aiAnswer.textContent =
+    "جاري قراءة الوثيقة...";
+
+  progressBar.style.width =
+    "5%";
+
+  setStatus(
+    "waiting",
+    "جاري قراءة الوثيقة",
+    "كنستخرجو النص من الملف...",
+    "READING"
+  );
+
+  try{
+
+    extractedText =
+      await extractText(selectedFile);
+
+    if(!extractedText ||
+       extractedText.trim().length < 5){
+
+      throw new Error(
+        "ما قدرناش نستخرجو نص كافي من هاد الوثيقة."
+      );
+    }
+
+    progressBar.style.width =
+      "55%";
+
+    setStatus(
+      "waiting",
+      "جاري التحليل",
+      "Gemini كيدرس محتوى الوثيقة...",
+      "GEMINI"
+    );
+
+    aiAnswer.textContent =
+      "Gemini كيعالج الوثيقة...";
+
+    const response =
+      await fetch(
+        API_URL + "/api/check",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          body: JSON.stringify({
+
+            action:
+              selectedAction,
+
+            fileName:
+              selectedFile.name,
+
+            fileType:
+              selectedFile.type ||
+              "unknown",
+
+            text:
+              getActionInstruction() +
+              "\n\n" +
+              extractedText
+
+          })
+        }
+      );
+
+    const data =
+      await response.json();
+
+    if(!response.ok ||
+       !data.ok){
+
+      throw new Error(
+        data?.error ||
+        "API request failed."
+      );
+    }
+
+    progressBar.style.width =
+      "100%";
+
+    setStatus(
+      "success",
+      "التحليل اكتمل",
+      "Gemini عطاك النتيجة.",
+      "DONE"
+    );
+
+    aiAnswer.textContent =
+      data.answer ||
+      "ما رجعاتش نتيجة.";
+
+    documentMeta.textContent =
+      "📄 " +
+      selectedFile.name +
+      "\n" +
+      "🤖 " +
+      (data.model || "Gemini") +
+      "\n" +
+      "📦 " +
+      formatSize(selectedFile.size);
+
+  }
+
+  catch(error){
+
+    console.error(error);
+
+    progressBar.style.width =
+      "0%";
+
+    setStatus(
+      "error",
+      "وقع مشكل",
+      error.message,
+      "ERROR"
+    );
+
+    aiAnswer.textContent =
+      "❌ " +
+      error.message +
+      "\n\nحاول مرة أخرى.";
+
+  }
+
+  finally{
+
+    analyzeBtn.disabled =
+      false;
+
+  }
 
 }
 
 
-/* LANGUAGE */
+/* =========================
+   LANGUAGE
+========================= */
 
 const translations = {
 
@@ -1097,33 +1422,47 @@ const translations = {
 };
 
 
-document.querySelectorAll(".lang button").forEach(button => {
+document.querySelectorAll(".lang button")
+.forEach(button => {
 
   button.addEventListener("click", () => {
 
-    document.querySelectorAll(".lang button").forEach(b => {
+    document.querySelectorAll(".lang button")
+    .forEach(b => {
       b.classList.remove("active");
     });
 
     button.classList.add("active");
 
-    const lang = button.dataset.lang;
+    const lang =
+      button.dataset.lang;
 
-    document.documentElement.lang = lang;
+    document.documentElement.lang =
+      lang;
 
     document.documentElement.dir =
-      lang === "ar" ? "rtl" : "ltr";
+      lang === "ar"
+        ? "rtl"
+        : "ltr";
 
-    document.getElementById("heroText").textContent =
+    document.getElementById(
+      "heroText"
+    ).textContent =
       translations[lang].hero;
 
-    document.getElementById("dropTitle").textContent =
+    document.getElementById(
+      "dropTitle"
+    ).textContent =
       translations[lang].upload;
 
-    document.getElementById("dropText").textContent =
+    document.getElementById(
+      "dropText"
+    ).textContent =
       translations[lang].uploadText;
 
-    document.getElementById("uploadBtn").textContent =
+    document.getElementById(
+      "uploadBtn"
+    ).textContent =
       translations[lang].choose;
 
   });
@@ -1134,3 +1473,4 @@ document.querySelectorAll(".lang button").forEach(button => {
 
 </body>
 </html>
+```
