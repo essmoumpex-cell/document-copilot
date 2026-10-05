@@ -3,337 +3,571 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Document Copilot</title>
 
 <style>
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+
+:root{
+  --bg:#070713;
+  --panel:#111122;
+  --border:rgba(255,255,255,.09);
+  --text:#fff;
+  --muted:#a6a6bb;
+  --purple:#7957f0;
+  --purple2:#9b7cff;
+  --green:#32d583;
 }
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
+body{
+  margin:0;
+  font-family:Arial,"Segoe UI",sans-serif;
   background:
-    radial-gradient(circle at top right, #24104f 0, transparent 35%),
-    radial-gradient(circle at bottom left, #101d4d 0, transparent 35%),
-    #070713;
-  color: #fff;
-  min-height: 100vh;
+    radial-gradient(circle at 85% 5%,rgba(121,87,240,.20),transparent 30%),
+    radial-gradient(circle at 5% 80%,rgba(43,91,190,.15),transparent 30%),
+    var(--bg);
+  color:var(--text);
+  min-height:100vh;
 }
 
-header {
-  padding: 22px 7%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid rgba(255,255,255,.08);
+button,input{font-family:inherit}
+
+button{cursor:pointer}
+
+header{
+  height:76px;
+  padding:0 6%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid var(--border);
+  background:rgba(7,7,19,.8);
+  position:sticky;
+  top:0;
+  z-index:50;
 }
 
-.logo {
-  font-size: 24px;
-  font-weight: 800;
+.logo{
+  font-size:21px;
+  font-weight:900;
 }
 
-.logo span {
-  color: #9b7cff;
+.logo span{
+  color:var(--purple2);
 }
 
-.lang {
-  display: flex;
-  gap: 8px;
+.header-right{
+  display:flex;
+  gap:8px;
 }
 
-.lang button {
-  background: rgba(255,255,255,.06);
-  color: #fff;
-  border: 1px solid rgba(255,255,255,.1);
-  border-radius: 10px;
-  padding: 8px 12px;
-  cursor: pointer;
+.lang-btn{
+  background:rgba(255,255,255,.06);
+  color:#fff;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:8px 12px;
 }
 
-.container {
-  width: 86%;
-  max-width: 1150px;
-  margin: auto;
+.container{
+  width:88%;
+  max-width:1200px;
+  margin:auto;
 }
 
-.hero {
-  text-align: center;
-  padding: 75px 10px 45px;
+.hero{
+  text-align:center;
+  padding:80px 10px 45px;
 }
 
-.badge {
-  display: inline-block;
-  padding: 7px 14px;
-  border-radius: 30px;
-  background: rgba(155,124,255,.12);
-  border: 1px solid rgba(155,124,255,.3);
-  color: #b9a5ff;
-  font-size: 13px;
-  margin-bottom: 20px;
+.badge{
+  display:inline-block;
+  padding:8px 15px;
+  border-radius:30px;
+  color:#c5b7ff;
+  background:rgba(121,87,240,.12);
+  border:1px solid rgba(121,87,240,.28);
+  font-size:12px;
+  margin-bottom:22px;
 }
 
-.hero h1 {
-  font-size: clamp(38px, 6vw, 68px);
-  margin: 0;
-  line-height: 1.1;
+.hero h1{
+  margin:0;
+  font-size:clamp(40px,6vw,72px);
+  line-height:1.08;
 }
 
-.hero h1 span {
-  color: #9b7cff;
+.hero h1 span{
+  color:var(--purple2);
 }
 
-.hero p {
-  max-width: 720px;
-  margin: 22px auto;
-  color: #b8b8c8;
-  font-size: 18px;
-  line-height: 1.8;
+.hero p{
+  max-width:760px;
+  margin:24px auto;
+  color:var(--muted);
+  font-size:18px;
+  line-height:1.9;
 }
 
-.search-box {
-  max-width: 800px;
-  margin: 35px auto 0;
-  background: rgba(255,255,255,.06);
-  border: 1px solid rgba(255,255,255,.12);
-  border-radius: 18px;
-  padding: 8px;
-  display: flex;
-  gap: 8px;
+.search-wrap{
+  max-width:850px;
+  margin:35px auto 0;
 }
 
-.search-box input {
-  flex: 1;
-  background: transparent;
-  border: 0;
-  outline: 0;
-  color: white;
-  padding: 16px;
-  font-size: 16px;
-  direction: rtl;
+.search-box{
+  display:flex;
+  gap:8px;
+  padding:8px;
+  background:rgba(255,255,255,.055);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:18px;
 }
 
-.search-box button {
-  border: 0;
-  border-radius: 13px;
-  padding: 0 25px;
-  background: #7655e8;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
+.search-box input{
+  flex:1;
+  min-width:0;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:#fff;
+  padding:17px;
+  font-size:16px;
 }
 
-.section {
-  padding: 35px 0;
+.search-box input::placeholder{
+  color:#77778d;
 }
 
-.section-title {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
+.search-btn{
+  border:0;
+  border-radius:13px;
+  padding:0 28px;
+  background:linear-gradient(135deg,var(--purple),#6240db);
+  color:#fff;
+  font-weight:800;
 }
 
-.section-title h2 {
-  margin: 0;
-  font-size: 25px;
+.examples{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:15px;
 }
 
-.section-title span {
-  color: #9999ad;
-  font-size: 14px;
+.example{
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.035);
+  color:#aaaabd;
+  padding:7px 12px;
+  border-radius:20px;
+  font-size:12px;
 }
 
-.countries {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 14px;
+.example:hover{
+  color:#fff;
+  border-color:var(--purple);
 }
 
-.country {
-  padding: 20px;
-  background: rgba(255,255,255,.05);
-  border: 1px solid rgba(255,255,255,.08);
-  border-radius: 16px;
-  cursor: pointer;
-  transition: .2s;
+.section{
+  padding:35px 0;
 }
 
-.country:hover {
-  transform: translateY(-3px);
-  border-color: #7655e8;
-  background: rgba(118,85,232,.12);
+.section-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
 }
 
-.country .flag {
-  font-size: 30px;
-  margin-bottom: 10px;
+.section-title h2{
+  margin:0;
+  font-size:25px;
 }
 
-.country strong {
-  display: block;
-  font-size: 16px;
+.section-title span{
+  color:#77778c;
+  font-size:13px;
 }
 
-.country small {
-  color: #9999ad;
+.countries{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
 }
 
-.categories {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 14px;
+.country{
+  padding:22px;
+  border-radius:17px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.045);
+  transition:.2s;
+  cursor:pointer;
 }
 
-.category {
-  background: rgba(255,255,255,.045);
-  border: 1px solid rgba(255,255,255,.08);
-  border-radius: 16px;
-  padding: 22px;
-  cursor: pointer;
-  transition: .2s;
+.country:hover,
+.country.active{
+  transform:translateY(-3px);
+  border-color:var(--purple);
+  background:rgba(121,87,240,.12);
 }
 
-.category:hover {
-  border-color: #7655e8;
-  transform: translateY(-3px);
+.flag{
+  font-size:30px;
+  margin-bottom:12px;
 }
 
-.category .icon {
-  font-size: 30px;
-  margin-bottom: 12px;
+.country strong{
+  display:block;
 }
 
-.category strong {
-  display: block;
-  margin-bottom: 6px;
+.country small{
+  display:block;
+  color:#85859a;
+  margin-top:5px;
 }
 
-.category small {
-  color: #9696aa;
+.categories{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
 }
 
-.steps {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 15px;
+.category{
+  padding:20px;
+  border-radius:17px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.04);
+  cursor:pointer;
+  transition:.2s;
 }
 
-.step {
-  padding: 25px;
-  background: linear-gradient(
+.category:hover,
+.category.active{
+  border-color:var(--purple);
+  background:rgba(121,87,240,.11);
+  transform:translateY(-3px);
+}
+
+.category-icon{
+  font-size:28px;
+  margin-bottom:10px;
+}
+
+.category strong{
+  display:block;
+}
+
+.category small{
+  color:#85859a;
+  display:block;
+  margin-top:6px;
+}
+
+.library{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+}
+
+.document-card{
+  border:1px solid var(--border);
+  background:linear-gradient(
     145deg,
-    rgba(118,85,232,.12),
-    rgba(255,255,255,.035)
+    rgba(255,255,255,.055),
+    rgba(255,255,255,.025)
   );
-  border: 1px solid rgba(255,255,255,.08);
-  border-radius: 18px;
+  border-radius:19px;
+  padding:22px;
+  transition:.2s;
 }
 
-.number {
-  width: 35px;
-  height: 35px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: #7655e8;
-  margin-bottom: 15px;
-  font-weight: bold;
+.document-card:hover{
+  transform:translateY(-4px);
+  border-color:rgba(121,87,240,.55);
 }
 
-.step p {
-  color: #9999ad;
-  line-height: 1.7;
-  font-size: 14px;
+.doc-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
 }
 
-.results {
-  display: none;
-  margin-top: 25px;
+.doc-icon{
+  width:48px;
+  height:48px;
+  border-radius:13px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:24px;
+  background:rgba(121,87,240,.14);
 }
 
-.result-card {
-  background: rgba(255,255,255,.05);
-  border: 1px solid rgba(255,255,255,.1);
-  border-radius: 18px;
-  padding: 22px;
+.verified{
+  font-size:11px;
+  color:var(--green);
+  background:rgba(50,213,131,.08);
+  border:1px solid rgba(50,213,131,.18);
+  padding:5px 8px;
+  border-radius:20px;
 }
 
-.result-card h3 {
-  margin-top: 0;
+.document-card h3{
+  margin:18px 0 8px;
+  font-size:18px;
 }
 
-.result-card p {
-  color: #aaaabb;
-  line-height: 1.8;
+.document-card p{
+  color:#9999ae;
+  font-size:13px;
+  line-height:1.7;
+  min-height:65px;
 }
 
-.info-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  margin-top: 20px;
+.tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin:13px 0;
 }
 
-.info {
-  background: rgba(0,0,0,.2);
-  padding: 15px;
-  border-radius: 12px;
+.tag{
+  font-size:10px;
+  color:#aaaabd;
+  border:1px solid var(--border);
+  padding:5px 8px;
+  border-radius:15px;
 }
 
-.info strong {
-  display: block;
-  margin-bottom: 5px;
+.card-actions{
+  display:flex;
+  gap:8px;
+  margin-top:16px;
 }
 
-.info span {
-  color: #aaa;
-  font-size: 13px;
+.primary-btn,
+.secondary-btn{
+  flex:1;
+  border-radius:11px;
+  padding:11px;
+  font-weight:bold;
 }
 
-footer {
-  margin-top: 60px;
-  padding: 30px;
-  text-align: center;
-  border-top: 1px solid rgba(255,255,255,.08);
-  color: #77778a;
-  font-size: 13px;
+.primary-btn{
+  border:0;
+  background:var(--purple);
+  color:#fff;
 }
 
-@media(max-width:800px) {
+.secondary-btn{
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.04);
+  color:#fff;
+  text-decoration:none;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.empty{
+  display:none;
+  text-align:center;
+  padding:45px 20px;
+  color:#9999ae;
+  border:1px dashed var(--border);
+  border-radius:18px;
+}
+
+.steps{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+}
+
+.step{
+  padding:25px;
+  border-radius:18px;
+  border:1px solid var(--border);
+  background:linear-gradient(
+    145deg,
+    rgba(121,87,240,.10),
+    rgba(255,255,255,.025)
+  );
+}
+
+.number{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  background:var(--purple);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+  margin-bottom:15px;
+}
+
+.step p{
+  color:#9292a8;
+  line-height:1.7;
+  font-size:13px;
+}
+
+footer{
+  margin-top:60px;
+  border-top:1px solid var(--border);
+  padding:30px;
+  text-align:center;
+  color:#68687c;
+  font-size:12px;
+}
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:100;
+  background:rgba(0,0,0,.75);
+  padding:30px;
+  overflow:auto;
+}
+
+.modal-box{
+  max-width:760px;
+  margin:50px auto;
+  background:#111122;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:22px;
+  padding:28px;
+  position:relative;
+}
+
+.close{
+  position:absolute;
+  top:18px;
+  left:18px;
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.05);
+  color:#fff;
+  font-size:20px;
+}
+
+.modal-title{
+  padding-left:45px;
+}
+
+.modal-title h2{
+  margin:0 0 7px;
+}
+
+.modal-title p{
+  color:#9999ae;
+  line-height:1.7;
+}
+
+.detail-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  margin-top:22px;
+}
+
+.detail{
+  background:rgba(255,255,255,.035);
+  border:1px solid var(--border);
+  padding:16px;
+  border-radius:13px;
+}
+
+.detail strong{
+  display:block;
+  margin-bottom:7px;
+  font-size:13px;
+}
+
+.detail span{
+  color:#9999ad;
+  font-size:12px;
+  line-height:1.6;
+}
+
+.source-box{
+  margin-top:20px;
+  padding:17px;
+  border-radius:14px;
+  background:rgba(50,213,131,.06);
+  border:1px solid rgba(50,213,131,.15);
+}
+
+.source-box strong{
+  color:var(--green);
+}
+
+.source-box p{
+  color:#9999ad;
+  font-size:12px;
+  line-height:1.6;
+}
+
+.source-link{
+  display:inline-block;
+  margin-top:8px;
+  color:#fff;
+  text-decoration:none;
+  background:rgba(255,255,255,.08);
+  padding:9px 13px;
+  border-radius:9px;
+}
+
+@media(max-width:900px){
+
+  .countries,
+  .categories,
+  .steps{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .library{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:650px){
+
+  header{
+    padding:0 4%;
+  }
+
+  .logo{
+    font-size:17px;
+  }
+
+  .hero{
+    padding-top:55px;
+  }
+
+  .search-box{
+    flex-direction:column;
+  }
+
+  .search-btn{
+    padding:15px;
+  }
+
   .countries,
   .categories,
   .steps,
-  .info-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .library,
+  .detail-grid{
+    grid-template-columns:1fr;
   }
 
-  .search-box {
-    flex-direction: column;
-  }
-
-  .search-box button {
-    padding: 15px;
-  }
-}
-
-@media(max-width:500px) {
-  .container {
-    width: 92%;
-  }
-
-  .countries,
-  .categories,
-  .steps,
-  .info-grid {
-    grid-template-columns: 1fr;
-  }
-
-  header {
-    padding: 18px 4%;
+  .container{
+    width:92%;
   }
 }
 </style>
@@ -342,337 +576,799 @@ footer {
 <body>
 
 <header>
+
   <div class="logo">
     DOCUMENT <span>COPILOT</span>
   </div>
 
-  <div class="lang">
-    <button onclick="setLang('ar')">العربية</button>
-    <button onclick="setLang('fr')">FR</button>
-    <button onclick="setLang('en')">EN</button>
+  <div class="header-right">
+    <button class="lang-btn">العربية</button>
+    <button class="lang-btn">FR</button>
+    <button class="lang-btn">EN</button>
   </div>
+
 </header>
+
 
 <main class="container">
 
-  <section class="hero">
+<section class="hero">
 
-    <div class="badge">
-      DOCUMENTS · FORMS · PROCEDURES
-    </div>
+  <div class="badge">
+    DOCUMENTS · FORMS · PROCEDURES
+  </div>
 
-    <h1>
-      لقا الوثيقة.<br>
-      <span>عمّرها.</span> عرف فين تدفعها.
-    </h1>
+  <h1>
+    لقا الوثيقة.<br>
+    <span>عمّرها.</span> عرف فين تدفعها.
+  </h1>
 
-    <p>
-      Document Copilot يساعدك تلقى النماذج والوثائق المناسبة،
-      تفهم كيفاش تعمرها، شنو خاصك معها، وفين وكيفاش تدفعها.
-    </p>
+  <p>
+    Document Copilot كيساعدك تلقى الوثيقة أو النموذج المناسب،
+    تفهم كيفاش تعمرو، شنو خاصك معاه، وفين وكيفاش تدفعو.
+  </p>
+
+  <div class="search-wrap">
 
     <div class="search-box">
+
       <input
         id="searchInput"
         type="text"
-        placeholder="مثلاً: بغيت وثيقة باش نبدل العنوان..."
+        placeholder="مثلاً: بغيت جواز السفر..."
       >
 
-      <button onclick="searchDocument()">
+      <button
+        class="search-btn"
+        onclick="searchDocuments()"
+      >
         🔎 قلب
       </button>
-    </div>
-
-    <div id="results" class="results">
-
-      <div class="result-card">
-
-        <h3>🔎 البحث الذكي</h3>
-
-        <p id="resultText">
-          غادي نبحثو على الوثيقة المناسبة...
-        </p>
-
-        <div class="info-grid">
-
-          <div class="info">
-            <strong>📄 النموذج</strong>
-            <span>سيتم تحديد النموذج</span>
-          </div>
-
-          <div class="info">
-            <strong>✍️ التعمير</strong>
-            <span>مساعدة في ملء الخانات</span>
-          </div>
-
-          <div class="info">
-            <strong>📍 الإيداع</strong>
-            <span>سيتم تحديد الجهة</span>
-          </div>
-
-          <div class="info">
-            <strong>⏱️ المدة</strong>
-            <span>سيتم التحقق منها</span>
-          </div>
-
-        </div>
-
-      </div>
 
     </div>
 
-  </section>
+    <div class="examples">
 
+      <button class="example"
+        onclick="quickSearch('جواز السفر')">
+        جواز السفر
+      </button>
 
-  <section class="section">
+      <button class="example"
+        onclick="quickSearch('التأشيرة')">
+        طلب التأشيرة
+      </button>
 
-    <div class="section-title">
-      <h2>🌍 اختار البلد</h2>
-      <span>المرحلة الأولى</span>
-    </div>
+      <button class="example"
+        onclick="quickSearch('البطاقة الوطنية')">
+        البطاقة الوطنية
+      </button>
 
-    <div class="countries">
-
-      <div class="country" onclick="selectCountry('Morocco')">
-        <div class="flag">🇲🇦</div>
-        <strong>المغرب</strong>
-        <small>وثائق وإجراءات مغربية</small>
-      </div>
-
-      <div class="country" onclick="selectCountry('France')">
-        <div class="flag">🇫🇷</div>
-        <strong>فرنسا</strong>
-        <small>Documents & démarches</small>
-      </div>
-
-      <div class="country" onclick="selectCountry('Belgium')">
-        <div class="flag">🇧🇪</div>
-        <strong>بلجيكا</strong>
-        <small>Documents & procédures</small>
-      </div>
-
-      <div class="country" onclick="selectCountry('Canada')">
-        <div class="flag">🇨🇦</div>
-        <strong>كندا</strong>
-        <small>Forms & applications</small>
-      </div>
+      <button class="example"
+        onclick="quickSearch('CNIE')">
+        CNIE
+      </button>
 
     </div>
 
-  </section>
+  </div>
+
+</section>
 
 
-  <section class="section">
+<section class="section">
 
-    <div class="section-title">
-      <h2>📚 شنو كتقلب عليه؟</h2>
-      <span>اختار المجال</span>
-    </div>
+  <div class="section-title">
+    <h2>🌍 اختار البلد</h2>
+    <span>البلد المستهدف</span>
+  </div>
 
-    <div class="categories">
+  <div class="countries">
 
-      <div class="category" onclick="selectCategory('إدارية')">
-        <div class="icon">🏛️</div>
-        <strong>وثائق إدارية</strong>
-        <small>طلبات وشواهد وإجراءات</small>
-      </div>
+    <div class="country active"
+      onclick="selectCountry('Morocco',this)">
 
-      <div class="category" onclick="selectCategory('العمل')">
-        <div class="icon">💼</div>
-        <strong>العمل</strong>
-        <small>وظيفة، عمل، attestations</small>
-      </div>
-
-      <div class="category" onclick="selectCategory('السكن')">
-        <div class="icon">🏠</div>
-        <strong>السكن</strong>
-        <small>كراء، سكن، عنوان</small>
-      </div>
-
-      <div class="category" onclick="selectCategory('السفر')">
-        <div class="icon">✈️</div>
-        <strong>السفر</strong>
-        <small>جواز، فيزا، سفر</small>
-      </div>
-
-      <div class="category" onclick="selectCategory('السيارات')">
-        <div class="icon">🚗</div>
-        <strong>السيارات</strong>
-        <small>رخص ووثائق المركبات</small>
-      </div>
-
-      <div class="category" onclick="selectCategory('الدراسة')">
-        <div class="icon">🎓</div>
-        <strong>الدراسة</strong>
-        <small>تسجيل وشهادات وطلبات</small>
-      </div>
-
-      <div class="category" onclick="selectCategory('الشركات')">
-        <div class="icon">🏢</div>
-        <strong>الشركات</strong>
-        <small>نماذج ووثائق الأعمال</small>
-      </div>
-
-      <div class="category" onclick="selectCategory('أخرى')">
-        <div class="icon">📑</div>
-        <strong>وثائق أخرى</strong>
-        <small>البحث في باقي النماذج</small>
-      </div>
+      <div class="flag">🇲🇦</div>
+      <strong>المغرب</strong>
+      <small>وثائق وإجراءات مغربية</small>
 
     </div>
 
-  </section>
+    <div class="country"
+      onclick="selectCountry('France',this)">
 
-
-  <section class="section">
-
-    <div class="section-title">
-      <h2>⚡ كيفاش كيخدم؟</h2>
-    </div>
-
-    <div class="steps">
-
-      <div class="step">
-        <div class="number">1</div>
-        <strong>🔎 قلب</strong>
-        <p>
-          كتب شنو بغيتي بطريقة عادية، حتى بالدارجة.
-        </p>
-      </div>
-
-      <div class="step">
-        <div class="number">2</div>
-        <strong>📄 لقا النموذج</strong>
-        <p>
-          الموقع يلقى النموذج المناسب من قاعدة الوثائق.
-        </p>
-      </div>
-
-      <div class="step">
-        <div class="number">3</div>
-        <strong>✍️ عمّر</strong>
-        <p>
-          يساعدك تفهم كل خانة وتدخل المعلومات الصحيحة.
-        </p>
-      </div>
-
-      <div class="step">
-        <div class="number">4</div>
-        <strong>📍 دفع</strong>
-        <p>
-          تعرف فين تدفع الوثيقة، شنو خاصك، والمدة.
-        </p>
-      </div>
+      <div class="flag">🇫🇷</div>
+      <strong>فرنسا</strong>
+      <small>Documents & démarches</small>
 
     </div>
 
-  </section>
+    <div class="country"
+      onclick="selectCountry('Belgium',this)">
+
+      <div class="flag">🇧🇪</div>
+      <strong>بلجيكا</strong>
+      <small>Documents & procédures</small>
+
+    </div>
+
+    <div class="country"
+      onclick="selectCountry('Canada',this)">
+
+      <div class="flag">🇨🇦</div>
+      <strong>كندا</strong>
+      <small>Forms & applications</small>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<section class="section">
+
+  <div class="section-title">
+    <h2>📚 شنو كتقلب عليه؟</h2>
+    <span>اختار المجال</span>
+  </div>
+
+  <div class="categories">
+
+    <div class="category"
+      onclick="selectCategory('admin',this)">
+      <div class="category-icon">🏛️</div>
+      <strong>وثائق إدارية</strong>
+      <small>طلبات وشواهد وإجراءات</small>
+    </div>
+
+    <div class="category"
+      onclick="selectCategory('work',this)">
+      <div class="category-icon">💼</div>
+      <strong>العمل</strong>
+      <small>وظيفة، attestations، نماذج</small>
+    </div>
+
+    <div class="category"
+      onclick="selectCategory('housing',this)">
+      <div class="category-icon">🏠</div>
+      <strong>السكن</strong>
+      <small>كراء، عنوان، سكن</small>
+    </div>
+
+    <div class="category"
+      onclick="selectCategory('travel',this)">
+      <div class="category-icon">✈️</div>
+      <strong>السفر</strong>
+      <small>جواز، فيزا، سفر</small>
+    </div>
+
+    <div class="category"
+      onclick="selectCategory('cars',this)">
+      <div class="category-icon">🚗</div>
+      <strong>السيارات</strong>
+      <small>رخص ووثائق المركبات</small>
+    </div>
+
+    <div class="category"
+      onclick="selectCategory('study',this)">
+      <div class="category-icon">🎓</div>
+      <strong>الدراسة</strong>
+      <small>تسجيل وشهادات</small>
+    </div>
+
+    <div class="category"
+      onclick="selectCategory('business',this)">
+      <div class="category-icon">🏢</div>
+      <strong>الشركات</strong>
+      <small>وثائق الأعمال</small>
+    </div>
+
+    <div class="category"
+      onclick="selectCategory('other',this)">
+      <div class="category-icon">📑</div>
+      <strong>وثائق أخرى</strong>
+      <small>باقي النماذج</small>
+    </div>
+
+  </div>
+
+</section>
+
+
+<section class="section" id="librarySection">
+
+  <div class="section-title">
+
+    <h2>📚 الوثائق المتوفرة</h2>
+
+    <span id="libraryCount">
+      0 وثائق
+    </span>
+
+  </div>
+
+  <div id="library" class="library"></div>
+
+  <div id="empty" class="empty">
+    🔎 ما لقيناش وثيقة مطابقة.
+    <br>
+    جرب اسم آخر أو وصف بسيط للوثيقة.
+  </div>
+
+</section>
+
+
+<section class="section">
+
+  <div class="section-title">
+    <h2>⚡ كيفاش كيخدم Document Copilot؟</h2>
+  </div>
+
+  <div class="steps">
+
+    <div class="step">
+      <div class="number">1</div>
+      <strong>🔎 قلب</strong>
+      <p>
+        كتب اسم الوثيقة أو شرح لشنو باغي،
+        حتى بالدارجة.
+      </p>
+    </div>
+
+    <div class="step">
+      <div class="number">2</div>
+      <strong>📄 لقا الوثيقة</strong>
+      <p>
+        النظام يقلب داخل مكتبة الوثائق
+        المرتبطة بالمصادر الرسمية.
+      </p>
+    </div>
+
+    <div class="step">
+      <div class="number">3</div>
+      <strong>✍️ فهم وعمّر</strong>
+      <p>
+        تعرف شنو كتعني الخانات وشنو
+        المعلومات اللي خاصك تدخل.
+      </p>
+    </div>
+
+    <div class="step">
+      <div class="number">4</div>
+      <strong>📍 دير الإجراء</strong>
+      <p>
+        تعرف الجهة، الوثائق المطلوبة
+        والمصدر الرسمي.
+      </p>
+    </div>
+
+  </div>
+
+</section>
 
 </main>
 
 
 <footer>
-  DOCUMENT COPILOT · Find documents. Fill forms. Know what to do next.
+
+  DOCUMENT COPILOT
+  ·
+  Find documents.
+  Fill forms.
+  Know what to do next.
+
+  <br><br>
+
+  المعلومات الإدارية المتغيرة خاصها دائماً
+  التحقق من المصدر الرسمي.
+
 </footer>
+
+
+<div id="modal" class="modal">
+
+  <div class="modal-box">
+
+    <button class="close" onclick="closeModal()">×</button>
+
+    <div id="modalContent"></div>
+
+  </div>
+
+</div>
 
 
 <script>
 
+const documents = [
+
+  {
+    id:"passport",
+    country:"Morocco",
+    category:"travel",
+    icon:"🛂",
+
+    title:"طلب جواز السفر البيومتري",
+
+    keywords:[
+      "جواز السفر",
+      "جواز",
+      "passport",
+      "passeport",
+      "biometrique",
+      "بيومتري"
+    ],
+
+    description:
+      "النموذج الرسمي لطلب جواز السفر البيومتري المغربي.",
+
+    formType:"PDF",
+
+    fill:
+      "التعمير حسب النموذج الرسمي.",
+
+    submit:
+      "يجب التحقق من الجهة المختصة ومسطرة الإيداع حسب الحالة.",
+
+    duration:
+      "تختلف حسب الحالة والجهة.",
+
+    fees:
+      "يجب التحقق من الرسوم الرسمية الحالية.",
+
+    sourceName:
+      "Consulat.ma",
+
+    source:
+      "https://www.consulat.ma/sites/default/files/inline-files/Formulaire_Passeport%20Biometrique%20%281%29_1.pdf"
+  },
+
+  {
+    id:"visa",
+    country:"Morocco",
+    category:"travel",
+    icon:"🌍",
+
+    title:"مطبوع طلب التأشيرة",
+
+    keywords:[
+      "التأشيرة",
+      "فيزا",
+      "visa",
+      "visas",
+      "طلب التأشيرة"
+    ],
+
+    description:
+      "النموذج الرسمي لطلب التأشيرة.",
+
+    formType:"PDF",
+
+    fill:
+      "يتضمن معلومات الهوية والجنسية وجواز السفر وغيرها.",
+
+    submit:
+      "لدى الجهة المغربية المختصة حسب نوع الطلب.",
+
+    duration:
+      "تختلف حسب نوع التأشيرة والجهة.",
+
+    fees:
+      "تختلف حسب نوع التأشيرة.",
+
+    sourceName:
+      "Consulat.ma",
+
+    source:
+      "https://consulat.ma/sites/default/files/inline-files/Arabe%20-%20Formulaire-visa.pdf?colooo=yes"
+  },
+
+  {
+    id:"cnie",
+    country:"Morocco",
+    category:"admin",
+    icon:"🪪",
+
+    title:"البطاقة الوطنية الإلكترونية CNIE",
+
+    keywords:[
+      "CNIE",
+      "البطاقة الوطنية",
+      "بطاقة التعريف",
+      "CIN",
+      "الهوية"
+    ],
+
+    description:
+      "معلومات وإجراءات طلب أو تجديد البطاقة الوطنية الإلكترونية.",
+
+    formType:"إجراء رسمي",
+
+    fill:
+      "اتباع المسطرة الرسمية والحضور الشخصي حسب الحالة.",
+
+    submit:
+      "المصلحة المختصة بالبطاقة الوطنية حسب الحالة.",
+
+    duration:
+      "تختلف حسب الحالة ومكان الإيداع.",
+
+    fees:
+      "يرجى التحقق من الرسوم الرسمية الحالية.",
+
+    sourceName:
+      "Consulat.ma",
+
+    source:
+      "https://consulat.ma/index.php/ar/tlb-alhswl-ly-albtaqt-alwtnyt-alalktrwnyt-lawl-mrt"
+  }
+
+];
+
+
 let selectedCountry = "Morocco";
 let selectedCategory = "";
+let currentSearch = "";
 
 
-function selectCountry(country) {
+function renderDocuments(list){
 
-  selectedCountry = country;
+  const library =
+    document.getElementById("library");
 
-  const input = document.getElementById("searchInput");
+  const empty =
+    document.getElementById("empty");
 
-  input.focus();
+  const count =
+    document.getElementById("libraryCount");
 
-  if (country === "Morocco") {
-    input.placeholder = "مثلاً: بغيت وثيقة إدارية فالمغرب...";
-  } else {
-    input.placeholder = "شنو الوثيقة اللي كتقلب عليها؟";
-  }
-}
+  library.innerHTML = "";
 
+  count.textContent =
+    list.length + " وثائق";
 
-function selectCategory(category) {
+  if(list.length === 0){
 
-  selectedCategory = category;
-
-  const input = document.getElementById("searchInput");
-
-  input.value = category;
-
-  input.focus();
-}
-
-
-function searchDocument() {
-
-  const input = document.getElementById("searchInput");
-
-  const query = input.value.trim();
-
-  const results = document.getElementById("results");
-
-  const resultText = document.getElementById("resultText");
-
-  results.style.display = "block";
-
-  if (!query) {
-
-    resultText.textContent =
-      "كتب اسم الوثيقة أو شرح بسيط لشنو بغيتي، مثلاً: بغيت شهادة السكنى.";
+    empty.style.display = "block";
 
     return;
   }
 
-  resultText.textContent =
-    "طلب البحث: " +
-    query +
-    " — البلد: " +
-    selectedCountry +
-    (selectedCategory
-      ? " — المجال: " + selectedCategory
-      : "") +
-    ". النظام غادي يبحث على النموذج المناسب والمعلومات الرسمية المرتبطة به.";
+  empty.style.display = "none";
+
+
+  list.forEach(function(doc){
+
+    const card =
+      document.createElement("div");
+
+    card.className =
+      "document-card";
+
+    card.innerHTML = `
+
+      <div class="doc-top">
+
+        <div class="doc-icon">
+          ${doc.icon}
+        </div>
+
+        <div class="verified">
+          ✓ مصدر رسمي
+        </div>
+
+      </div>
+
+      <h3>
+        ${doc.title}
+      </h3>
+
+      <p>
+        ${doc.description}
+      </p>
+
+      <div class="tags">
+
+        <span class="tag">
+          🇲🇦 المغرب
+        </span>
+
+        <span class="tag">
+          ${doc.formType}
+        </span>
+
+        <span class="tag">
+          رسمي
+        </span>
+
+      </div>
+
+      <div class="card-actions">
+
+        <button
+          class="primary-btn"
+          onclick="openDocument('${doc.id}')"
+        >
+          📄 التفاصيل
+        </button>
+
+        <a
+          class="secondary-btn"
+          href="${doc.source}"
+          target="_blank"
+          rel="noopener"
+        >
+          🔗 المصدر
+        </a>
+
+      </div>
+    `;
+
+    library.appendChild(card);
+
+  });
+
 }
 
 
-function setLang(lang) {
+function filterDocuments(){
 
-  if (lang === "ar") {
-    document.documentElement.lang = "ar";
-    document.documentElement.dir = "rtl";
-  }
+  const results =
+    documents.filter(function(doc){
 
-  if (lang === "fr") {
-    document.documentElement.lang = "fr";
-    document.documentElement.dir = "ltr";
-    alert("Version française — en préparation");
-  }
+      const countryMatch =
+        doc.country === selectedCountry;
 
-  if (lang === "en") {
-    document.documentElement.lang = "en";
-    document.documentElement.dir = "ltr";
-    alert("English version — coming soon");
-  }
+      const categoryMatch =
+        !selectedCategory ||
+        doc.category === selectedCategory;
+
+      let searchMatch = true;
+
+      if(currentSearch){
+
+        const text = (
+          doc.title +
+          " " +
+          doc.description +
+          " " +
+          doc.keywords.join(" ")
+        ).toLowerCase();
+
+        searchMatch =
+          text.includes(currentSearch);
+      }
+
+      return (
+        countryMatch &&
+        categoryMatch &&
+        searchMatch
+      );
+
+    });
+
+  renderDocuments(results);
 }
 
 
-document.getElementById("searchInput").addEventListener(
-  "keydown",
-  function(event) {
+function searchDocuments(){
 
-    if (event.key === "Enter") {
-      searchDocument();
+  const input =
+    document.getElementById("searchInput");
+
+  currentSearch =
+    input.value.trim().toLowerCase();
+
+  filterDocuments();
+
+  document
+    .getElementById("librarySection")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
+}
+
+
+function quickSearch(value){
+
+  document.getElementById("searchInput").value =
+    value;
+
+  currentSearch =
+    value.toLowerCase();
+
+  filterDocuments();
+
+  document
+    .getElementById("librarySection")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
+}
+
+
+function selectCountry(country, element){
+
+  selectedCountry = country;
+
+  document
+    .querySelectorAll(".country")
+    .forEach(function(el){
+      el.classList.remove("active");
+    });
+
+  element.classList.add("active");
+
+  filterDocuments();
+}
+
+
+function selectCategory(category, element){
+
+  if(selectedCategory === category){
+
+    selectedCategory = "";
+
+    document
+      .querySelectorAll(".category")
+      .forEach(function(el){
+        el.classList.remove("active");
+      });
+
+  }else{
+
+    selectedCategory = category;
+
+    document
+      .querySelectorAll(".category")
+      .forEach(function(el){
+        el.classList.remove("active");
+      });
+
+    element.classList.add("active");
+  }
+
+  filterDocuments();
+
+  document
+    .getElementById("librarySection")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
+}
+
+
+function openDocument(id){
+
+  const doc =
+    documents.find(function(item){
+      return item.id === id;
+    });
+
+  if(!doc) return;
+
+  const content =
+    document.getElementById("modalContent");
+
+  content.innerHTML = `
+
+    <div class="modal-title">
+
+      <h2>
+        ${doc.icon}
+        ${doc.title}
+      </h2>
+
+      <p>
+        ${doc.description}
+      </p>
+
+    </div>
+
+    <div class="detail-grid">
+
+      <div class="detail">
+        <strong>📄 نوع الوثيقة</strong>
+        <span>${doc.formType}</span>
+      </div>
+
+      <div class="detail">
+        <strong>✍️ كيفاش تعمرها؟</strong>
+        <span>${doc.fill}</span>
+      </div>
+
+      <div class="detail">
+        <strong>📍 فين تدفعها؟</strong>
+        <span>${doc.submit}</span>
+      </div>
+
+      <div class="detail">
+        <strong>⏱️ المدة</strong>
+        <span>${doc.duration}</span>
+      </div>
+
+      <div class="detail">
+        <strong>💰 الرسوم</strong>
+        <span>${doc.fees}</span>
+      </div>
+
+      <div class="detail">
+        <strong>🔄 التحقق</strong>
+        <span>المصدر الرسمي متوفر</span>
+      </div>
+
+    </div>
+
+    <div class="source-box">
+
+      <strong>✓ المصدر الرسمي</strong>
+
+      <p>
+        المرجع الأساسي للمعلومة هو المصدر الرسمي.
+        تحقق دائماً من آخر تحديث قبل تقديم الوثيقة.
+      </p>
+
+      <a
+        class="source-link"
+        href="${doc.source}"
+        target="_blank"
+        rel="noopener"
+      >
+        🔗 فتح المصدر الرسمي
+      </a>
+
+    </div>
+  `;
+
+  document.getElementById("modal").style.display =
+    "block";
+
+  document.body.style.overflow = "hidden";
+}
+
+
+function closeModal(){
+
+  document.getElementById("modal").style.display =
+    "none";
+
+  document.body.style.overflow = "";
+}
+
+
+document
+  .getElementById("modal")
+  .addEventListener("click",function(event){
+
+    if(event.target.id === "modal"){
+      closeModal();
     }
 
+  });
+
+
+document
+  .getElementById("searchInput")
+  .addEventListener("keydown",function(event){
+
+    if(event.key === "Enter"){
+      searchDocuments();
+    }
+
+  });
+
+
+document.addEventListener("keydown",function(event){
+
+  if(event.key === "Escape"){
+    closeModal();
   }
-);
+
+});
+
+
+renderDocuments(documents);
 
 </script>
 
